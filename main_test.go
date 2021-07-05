@@ -7,7 +7,7 @@ import (
 
 func TestAddingOneFlyer(t *testing.T) {
 	db := &FlyerDatabase{flyers: map[string]*Flyer{}}
-	db.addFlyer(NewFlyer("1", 5, 3))
+	db.AddFlyer(NewFlyer("1", 5, 3))
 	if len(db.flyers) != 1 {
 		t.Errorf("Database should have 1 flyer, has %d instead", len(db.flyers))
 	}
@@ -15,8 +15,8 @@ func TestAddingOneFlyer(t *testing.T) {
 
 func TestAddingFlyerSameId(t *testing.T) {
 	db := &FlyerDatabase{flyers: map[string]*Flyer{}}
-	db.addFlyer(NewFlyer("1", 5, 3))
-	ok, err := db.addFlyer(NewFlyer("1", 5, 3))
+	db.AddFlyer(NewFlyer("1", 5, 3))
+	ok, err := db.AddFlyer(NewFlyer("1", 5, 3))
 	if len(db.flyers) != 1 {
 		t.Errorf("Database should have 1 flyer, has %d instead", len(db.flyers))
 	}
@@ -33,8 +33,8 @@ func TestAddingFlyerSameId(t *testing.T) {
 
 func TestAddingSingleClick(t *testing.T) {
 	db := &FlyerDatabase{flyers: map[string]*Flyer{}}
-	db.addFlyer(NewFlyer("1", 5, 3))
-	flyer, _ := db.getFlyer("1")
+	db.AddFlyer(NewFlyer("1", 5, 3))
+	flyer, _ := db.GetFlyer("1")
 	flyer.AddClick(1)
 	if len(flyer.clicks) != 1 {
 		t.Errorf("Expected to add 1 click to the flyer")
@@ -43,8 +43,8 @@ func TestAddingSingleClick(t *testing.T) {
 
 func TestAddingClicks(t *testing.T) {
 	db := &FlyerDatabase{flyers: map[string]*Flyer{}}
-	db.addFlyer(NewFlyer("1", 5, 3))
-	flyer, _ := db.getFlyer("1")
+	db.AddFlyer(NewFlyer("1", 5, 3))
+	flyer, _ := db.GetFlyer("1")
 	flyer.AddClick(1)
 	flyer.AddClick(1)
 	flyer.AddClick(2)
@@ -56,8 +56,8 @@ func TestAddingClicks(t *testing.T) {
 func TestAddingClicksSpamDetection(t *testing.T) {
 	db := &FlyerDatabase{flyers: map[string]*Flyer{}}
 	spamLimit := 3
-	db.addFlyer(NewFlyer("1", 5, spamLimit))
-	flyer, _ := db.getFlyer("1")
+	db.AddFlyer(NewFlyer("1", 5, spamLimit))
+	flyer, _ := db.GetFlyer("1")
 	flyer.AddClick(1)
 	flyer.AddClick(2)
 	err := flyer.AddClick(3)

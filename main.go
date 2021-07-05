@@ -48,7 +48,7 @@ func (f *Flyer) ClicksDuringInterval(start int, end int) int {
 	return clicks
 }
 
-func (db *FlyerDatabase) addFlyer(flyer Flyer) (bool, error) {
+func (db *FlyerDatabase) AddFlyer(flyer Flyer) (bool, error) {
 	if _, contains := (db.flyers)[flyer.id]; contains {
 		return false, errors.New(fmt.Sprintf("Flyer with id %s already stored in the database", flyer.id))
 	}
@@ -56,7 +56,7 @@ func (db *FlyerDatabase) addFlyer(flyer Flyer) (bool, error) {
 	return true, nil
 }
 
-func (db *FlyerDatabase) getFlyer(id string) (*Flyer, error) {
+func (db *FlyerDatabase) GetFlyer(id string) (*Flyer, error) {
 	if flyer, contains := (db.flyers)[id]; contains {
 		return flyer, nil
 	}
@@ -93,16 +93,16 @@ func NewFlyer(id string, spamInterval int, spamLimit int) Flyer {
 
 func main() {
 	db := &FlyerDatabase{flyers: map[string]*Flyer{}}
-	db.addFlyer(NewFlyer("1", 5, 3))
-	db.addFlyer(NewFlyer("2", 5, 3))
-	db.addFlyer(NewFlyer("3", 5, 3))
-	_, err := db.addFlyer(NewFlyer("1", 5, 3))
+	db.AddFlyer(NewFlyer("1", 5, 3))
+	db.AddFlyer(NewFlyer("2", 5, 3))
+	db.AddFlyer(NewFlyer("3", 5, 3))
+	_, err := db.AddFlyer(NewFlyer("1", 5, 3))
 	println(err.Error())
-	f, err := db.getFlyer("1")
+	f, err := db.GetFlyer("1")
 	f.AddClick(1)
 	f.AddClick(5)
 
-	f, _ = db.getFlyer("2")
+	f, _ = db.GetFlyer("2")
 	f.AddClick(1)
 	f.AddClick(3)
 	f.AddClick(4)
